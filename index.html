@@ -301,7 +301,7 @@
     <!-- 스크롤 시 상단에 고정되는 로고 영역 -->
     <div class="header-wrapper">
         <!-- 임시 로고 이미지를 적용했습니다. 실제 로고 파일명으로 수정하세요. -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/NH_Nonghyup_Bank_logo.svg/512px-NH_Nonghyup_Bank_logo.svg.png" alt="제주시농협 로고" class="brand-logo-img">
+        <img src="logo.png" alt="제주시농협 로고" class="brand-logo-img">
     </div>
 
     <div class="container">
@@ -384,7 +384,7 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
-            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby6cGABjSlt6zt4AGSXuqAVzHQ-tOAiH0HCFhrvprne8IYshWlyMDaRlEKmNWtqSiSW5Q/exec';
             
             fetch(scriptURL, {
                 method: 'POST',
