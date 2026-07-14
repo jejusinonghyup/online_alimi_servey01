@@ -1,261 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>조합원 모바일 소식지 「온라인 알리미」 만족도 조사</title>
-    <style>
-        :root {
-            --primary-color: #006633;
-            --primary-light: #e6f2ec;
-            --secondary-color: #f39c12;
-            --text-main: #2c3e50;
-            --text-muted: #7f8c8d;
-            --bg-body: #f8faf9;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --radius: 12px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px 16px;
-        }
-
-        .container {
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: #e2e8f0;
-            z-index: 1000;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-
-        /* Sticky Header */
-        .header-wrapper {
-            position: sticky;
-            top: 4px; /* progress-container(4px) 바로 아래 고정 */
-            z-index: 990;
-            background-color: rgba(248, 250, 249, 0.95); /* 세련된 반투명 배경 */
-            backdrop-filter: blur(8px); /* 뒤에 스크롤되는 내용이 살짝 블러처리됨 */
-            padding: 12px 16px;
-            margin: -20px -16px 24px -16px; /* body의 기본 패딩 상쇄 */
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            text-align: center;
-        }
-        
-        .brand-logo-img {
-            height: 32px; /* 로고 높이 설정 */
-            width: auto;
-            object-fit: contain;
-            vertical-align: middle;
-        }
-
-        /* Intro Card */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 28px 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border-color);
-        }
-
-        .intro-card {
-            border-top: 8px solid var(--primary-color);
-        }
-
-        .event-card {
-            border-top: 8px solid var(--secondary-color);
-            background-color: #fffdfa;
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1a202c;
-            line-height: 1.4;
-            margin-bottom: 16px;
-            word-break: keep-all;
-        }
-
-        .intro-text {
-            font-size: 14px;
-            color: #4a5568;
-            margin-bottom: 20px;
-            word-break: keep-all;
-        }
-
-        .intro-text p {
-            margin-bottom: 12px;
-        }
-
-        .reward-badge {
-            background-color: var(--primary-light);
-            border-left: 4px solid var(--primary-color);
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #0f5132;
-            font-weight: 600;
-            line-height: 1.5;
-        }
-
-        .reward-notice {
-            font-size: 12px;
-            font-weight: normal;
-            color: #2c3e50;
-            margin-top: 4px;
-            display: block;
-        }
-
-        /* Question Styles */
-        .q-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #1a202c;
-            word-break: keep-all;
-        }
-
-        .q-title span {
-            color: var(--primary-color);
-            margin-right: 6px;
-        }
-
-        .options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            color: #4a5568;
-        }
-
-        .option-label:hover {
-            background-color: #f8fafc;
-            border-color: #cbd5e1;
-        }
-
-        .option-label input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50%;
-            margin-right: 12px;
-            outline: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .option-label input[type="radio"]:checked {
-            border-color: var(--primary-color);
-            background-color: var(--primary-color);
-        }
-
-        .option-label input[type="radio"]:checked::before {
-            transform: scale(1);
-        }
-
-        .option-label:has(input:checked) {
-            background-color: var(--primary-light);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        /* Text Input & Textarea */
-        textarea, input[type="tel"] {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            color: var(--text-main);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        textarea {
-            height: 120px;
-            resize: none;
-        }
-
-        textarea:focus, input[type="tel"]:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 102, 51, 0.1);
-        }
-
-        .privacy-notice {
-            font-size: 13px;
-            color: #d35400;
-            font-weight: 600;
-            background-color: #fdf2e9;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-            line-height: 1.5;
-            word-break: keep-all;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px -1px rgba(0, 102, 51, 0.2);
-        }
-
-        .submit-btn:hover {
-            background-color: #004d26;
-        }
-
+<!-- ... existing code ... -->
         /* Footer */
         .footer {
             text-align: center;
@@ -264,21 +7,35 @@
             margin-top: 40px;
             margin-bottom: 20px;
         }
+
+        /* Link Button */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px;
+            background-color: #f1f8f4;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+        .link-btn:hover {
+            background-color: #e6f2ec;
+        }
+        .link-btn svg {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
     </style>
 </head>
-<body>
-
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <!-- 스크롤 시 상단에 고정되는 로고 영역 -->
-    <div class="header-wrapper">
-        <!-- 임시 로고 이미지를 적용했습니다. 실제 로고 파일명으로 수정하세요. -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/NH_Nonghyup_Bank_logo.svg/512px-NH_Nonghyup_Bank_logo.svg.png" alt="제주시농협 로고" class="brand-logo-img">
-    </div>
-
-    <div class="container">
+<!-- ... existing code ... -->
         <div class="card intro-card">
             <h1>조합원 모바일 소식지 「온라인 알리미」<br>이용 만족도 및 발전을 위한 설문조사</h1>
             <div class="intro-text">
@@ -287,88 +44,18 @@
                 <p>본 설문조사는 '온라인 알리미'에 대한 조합원님의 소중한 의견을 수렴하여, 한층 더 완성도 높은 홍보 서비스를 제공하기 위한 기초 자료로 활용하고자 합니다.</p>
                 <p>총 8문항으로 구성되어 있으며, 잠시만 시간을 내어 참여해 주시면 감사하겠습니다. (예상 소요시간: 1~2분)</p>
             </div>
+
+            <!-- 온라인 알리미 접속 버튼 추가 -->
+            <a href="https://sites.google.com/view/jejusinhnews0004/%ED%99%88" target="_blank" class="link-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                온라인 알리미(소식지) 먼저 확인하기
+            </a>
+
             <div class="reward-badge">
                 🎁 응답자 중 30명을 추첨하여 모바일 농산물 상품권(1만원권)을 드립니다.
                 <span class="reward-notice">※ 추첨 결과는 8월 초 당첨자에 한해 개별 안내해 드릴 예정입니다.</span>
             </div>
         </div>
-
-        <form id="surveyForm">
-            <div class="card"><div class="q-title"><span>Q1.</span> 조합원님의 성별은 어떻게 되십니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q1" value="남성" required> 남성</label><label class="option-label"><input type="radio" name="q1" value="여성"> 여성</label></div></div>
-            <div class="card"><div class="q-title"><span>Q2.</span> 조합원님의 연령대는 어떻게 되십니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q2" value="40대 이하" required> 40대 이하</label><label class="option-label"><input type="radio" name="q2" value="50대"> 50대</label><label class="option-label"><input type="radio" name="q2" value="60대"> 60대</label><label class="option-label"><input type="radio" name="q2" value="70대 이상"> 70대 이상</label></div></div>
-            <div class="card"><div class="q-title"><span>Q3.</span> 평소 스마트폰을 이용해 카카오톡이나 인터넷 뉴스를 얼마나 자주 보십니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q3" value="거의 매일 사용한다" required> 거의 매일 사용한다</label><label class="option-label"><input type="radio" name="q3" value="필요할 때만 가끔 사용한다"> 필요할 때만 가끔 사용한다</label><label class="option-label"><input type="radio" name="q3" value="스마트폰 기능 사용이 익숙하지 않다"> 스마트폰 기능 사용이 익숙하지 않다</label></div></div>
-            <div class="card"><div class="q-title"><span>Q4.</span> 카카오톡으로 발송되는 온라인 알리미를 보신 적이 있으신가요?</div><div class="options-group"><label class="option-label"><input type="radio" name="q4" value="있다" required> 있다</label><label class="option-label"><input type="radio" name="q4" value="없다"> 없다</label></div></div>
-            <div class="card"><div class="q-title"><span>Q5.</span> 온라인 알리미의 화면 구성(디자인)이나 글자 크기는 어떠셨습니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q5" value="매우 보기 편하고 깔끔하다" required> 매우 보기 편하고 깔끔하다</label><label class="option-label"><input type="radio" name="q5" value="대체로 만족스럽다"> 대체로 만족스럽다</label><label class="option-label"><input type="radio" name="q5" value="보통이다"> 보통이다</label><label class="option-label"><input type="radio" name="q5" value="글씨가 작거나 화면 이동(스크롤)이 다소 불편하다"> 글씨가 작거나 화면 이동(스크롤)이 다소 불편하다</label><label class="option-label"><input type="radio" name="q5" value="매우 불편하다"> 매우 불편하다</label></div></div>
-            <div class="card"><div class="q-title"><span>Q6.</span> 소식별 기사의 길이는 어떠하다고 보십니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q6" value="너무 길다" required> 너무 길다</label><label class="option-label"><input type="radio" name="q6" value="적당하다"> 적당하다</label><label class="option-label"><input type="radio" name="q6" value="너무 짧다"> 너무 짧다</label></div></div>
-            <div class="card"><div class="q-title"><span>Q7.</span> 조합원님께서는 우리 농협의 소식이나 영농 정보를 접하실 때, 어떤 형태(채널)를 더 선호하거나 편하게 느끼십니까?</div><div class="options-group"><label class="option-label"><input type="radio" name="q7" value="스마트폰으로 빠르게 확인하는 '온라인 소식지'" required> 스마트폰으로 빠르게 확인하는 '온라인 소식지'</label><label class="option-label"><input type="radio" name="q7" value="우편으로 받아 펼쳐보는 '종이 소식지'"> 우편으로 받아 펼쳐보는 '종이 소식지'</label><label class="option-label"><input type="radio" name="q7" value="두 채널 모두 각자의 장점이 있어 함께 운영되는 것이 좋다"> 두 채널 모두 각자의 장점이 있어 함께 운영되는 것이 좋다</label></div></div>
-            
-            <div class="card">
-                <div class="q-title"><span>Q8.</span> 향후 우리 농협 소식지(종이/온라인 모두 포함)가 조합원님께 더 유익한 매체로 발전하기 위해 바라는 점이나 개선 사항이 있다면 자유롭게 의견을 남겨주십시오.</div>
-                <textarea name="q8" placeholder="의견을 입력해 주세요 (선택 사항)"></textarea>
-            </div>
-
-            <!-- 이벤트 응모 란 -->
-            <div class="card event-card">
-                <div class="q-title">🎁 경품 추첨을 위한 휴대폰 번호 입력 (선택)</div>
-                <div class="privacy-notice">
-                    ※ 안심하세요! 작성해주신 설문 내용과 연락처는 시스템상 완전히 분리되어 별도로 저장됩니다. 제출하신 설문의 익명성이 철저히 보장되니 자유롭게 의견을 남겨주세요.<br>
-                    ※ 추첨 결과는 8월 초에 당첨자에 한해 개별 안내해 드릴 예정입니다.
-                </div>
-                <input type="tel" name="phone" placeholder="예: 010-1234-5678" pattern="[0-9-]*">
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">설문조사 제출하기</button>
-        </form>
-
-        <div class="footer">
-            본 문서의 무단 반출시 법적 제재를 받을 수 있으며 모든 출력물은 모니터링 됩니다.
-        </div>
-    </div>
-
-    <script>
-        const form = document.getElementById('surveyForm');
-        const progressBar = document.getElementById('progressBar');
-        const submitBtn = document.getElementById('submitBtn');
-        const totalRequired = 7; 
-
-        form.addEventListener('change', () => {
-            const formData = new FormData(form);
-            let answered = 0;
-            for(let i = 1; i <= totalRequired; i++) {
-                if(formData.has(`q${i}`)) answered++;
-            }
-            const progress = (answered / totalRequired) * 100;
-            progressBar.style.width = `${progress}%`;
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            submitBtn.textContent = '제출 중...';
-            submitBtn.disabled = true;
-            
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
-            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
-            
-            fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                alert('설문에 참여해 주셔서 감사합니다! 성공적으로 제출되었습니다.');
-                form.reset();
-                progressBar.style.width = '0%';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                submitBtn.textContent = '설문조사 제출하기';
-                submitBtn.disabled = false;
-            })
-            .catch(error => {
-                alert('제출에 실패했습니다. 잠시 후 다시 시도해주세요.');
-                submitBtn.textContent = '설문조사 제출하기';
-                submitBtn.disabled = false;
-            });
-        });
-    </script>
-</body>
-</html>
+<!-- ... existing code ... -->
