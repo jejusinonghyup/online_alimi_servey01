@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>조합원 모바일 소식지 「온라인 알리미」 만족도 조사</title>
-    <style>
+<style>
         :root {
             --primary-color: #006633;
             --primary-light: #e6f2ec;
@@ -57,19 +57,19 @@
         /* Sticky Header */
         .header-wrapper {
             position: sticky;
-            top: 4px; /* progress-container(4px) 바로 아래 고정 */
+            top: 4px; 
             z-index: 990;
-            background-color: rgba(248, 250, 249, 0.95); /* 세련된 반투명 배경 */
-            backdrop-filter: blur(8px); /* 뒤에 스크롤되는 내용이 살짝 블러처리됨 */
+            background-color: rgba(248, 250, 249, 0.95); 
+            backdrop-filter: blur(8px); 
             padding: 12px 16px;
-            margin: -20px -16px 24px -16px; /* body의 기본 패딩 상쇄 */
+            margin: -20px -16px 24px -16px; 
             border-bottom: 1px solid var(--border-color);
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             text-align: center;
         }
         
         .brand-logo-img {
-            height: 32px; /* 로고 높이 설정 */
+            height: 32px; 
             width: auto;
             object-fit: contain;
             vertical-align: middle;
@@ -112,6 +112,25 @@
 
         .intro-text p {
             margin-bottom: 12px;
+        }
+
+        .link-btn {
+            display: block;
+            text-align: center;
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .link-btn:hover {
+            background-color: var(--primary-light);
         }
 
         .reward-badge {
@@ -170,29 +189,32 @@
             border-color: #cbd5e1;
         }
 
-        .option-label input[type="radio"] {
+        /* 라디오 버튼 스타일 */
+        .radio-input {
             appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border: 2px solid #cbd5e1;
             border-radius: 50%;
             margin-right: 12px;
-            outline: none;
+            position: relative;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
         }
 
-        .option-label input[type="radio"]:checked {
-            border-color: var(--primary-color);
+        .radio-input:checked {
             background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
-        .option-label input[type="radio"]:checked::before {
-            transform: scale(1);
+        /* 체크 표시 (V) 추가 */
+        .radio-input:checked::after {
+            content: "✓";
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
         }
 
         .option-label:has(input:checked) {
@@ -259,36 +281,12 @@
         /* Footer */
         .footer {
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
             margin-top: 40px;
             margin-bottom: 20px;
-        }
-
-        /* Link Button */
-        .link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 14px;
-            background-color: #f1f8f4;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.2s;
-        }
-        .link-btn:hover {
-            background-color: #e6f2ec;
-        }
-        .link-btn svg {
-            margin-right: 8px;
-            width: 18px;
-            height: 18px;
+            line-height: 1.6;
+            word-break: keep-all;
         }
     </style>
 </head>
